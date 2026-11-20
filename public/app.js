@@ -68,13 +68,16 @@ function mostrarAviso(mensagem) {
   caixaAviso.hidden = false;
 }
 
-function campo(rotulo, valor, destaque) {
+function campo(rotulo, valor, destaque, copiavel) {
   const vazio = valor === null || valor === undefined || valor === "";
+  const copia = copiavel && !vazio
+    ? '<button class="copiar-mini" type="button" data-copiar="' + escapar(valor) + '">copiar</button>'
+    : "";
   return '<div class="campo">'
     + '<span class="campo-rotulo">' + escapar(rotulo) + "</span>"
     + '<span class="campo-valor' + (vazio ? " vazio" : "") + '">'
     + (vazio ? "—" : (destaque ? "<b>" + escapar(valor) + "</b>" : escapar(valor)))
-    + "</span></div>";
+    + copia + "</span></div>";
 }
 
 const METODOS = {
@@ -96,10 +99,10 @@ function mostrarResultado(dados) {
   metaResultado.textContent = "modo " + metodo + " · " + (dados.tempo_ms || 0) + " ms";
 
   grade.innerHTML = [
-    campo("UID", conta.uid, true),
+    campo("UID", conta.uid, true, true),
     campo("Nome", conta.nome),
     campo("Região", conta.regiao, true),
-    campo("Open ID", conta.open_id),
+    campo("Open ID", conta.open_id, false, true),
     campo("Access token", conta.access_token),
     campo("JWT", conta.jwt),
     campo("Expira em", data(conta.expira_em)),
@@ -176,4 +179,48 @@ form.addEventListener("submit", (evento) => {
 
 document.getElementById("uid").addEventListener("input", (evento) => {
   evento.target.value = evento.target.value.replace(/\D/g, "").slice(0, 15);
+});
+
+/* --- um único movimento: o comando no cartão do hero se reescreve. --- */
+(function comandos() {
+  const alvo = document.getElementById("cmd-typing");
+  if (!alvo || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const comandos = ["auth --eat", "auth --jwt", "auth --uid:pass"];
+  let indice = 0;
+  let posicao = comandos[0].length;
+  let apagando = false;
+
+  function passo() {
+    const atual = comandos[indice];
+    alvo.textContent = atual.slice(0, posicao);
+    if (!apagando && posicao < atual.length) {
+      posicao += 1;
+    } else if (!apagando) {
+      apagando = true;
+    } else if (posicao > 0) {
+      posicao -= 1;
+    } else {
+      apagando = false;
+      indice = (indice + 1) % comandos.length;
+    }
+    setTimeout(passo, apagando ? 45 : 90);
+  }
+  setTimeout(passo, 900);
+})();
+
+/* --- copiar valores e JSON --- */
+document.addEventListener("click", async (evento) => {
+  const botaoCopia = evento.target.closest("[data-copiar], .copiar[data-alvo]");
+  if (!botaoCopia) return;
+  const valor = botaoCopia.dataset.copiar
+    || (document.getElementById(botaoCopia.dataset.alvo) || {}).textContent;
+  if (!valor) return;
+  try {
+    await navigator.clipboard.writeText(valor);
+    const texto = botaoCopia.textContent;
+    botaoCopia.textContent = "copiado";
+    setTimeout(() => { botaoCopia.textContent = texto; }, 1300);
+  } catch (erro) {
+    botaoCopia.textContent = "selecione e copie";
+  }
 });

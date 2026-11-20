@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8">
@@ -20,8 +20,8 @@
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="manifest" href="manifest.json">
 <meta name="mobile-web-app-capable" content="yes">
-<link rel="stylesheet" href="assets/fonts/fonts.css?v=1">
-<link rel="stylesheet" href="site.css?v=1">
+<link rel="stylesheet" href="assets/fonts/fonts.css?v=2">
+<link rel="stylesheet" href="site.css?v=2">
 </head>
 <body>
 
@@ -44,7 +44,7 @@
   <section class="hero">
     <div class="hero-texto">
       <p class="olho"><span class="olho-luz"></span>auth / verificação de conta</p>
-      <h1>Três caminhos.<br><em>Uma resposta.</em></h1>
+      <h1>Três formas de entrar.<br>Uma só resposta.<span class="caret">_</span></h1>
       <p class="linha-fina">
         Cole um access token, um JWT ou as credenciais da conta. O AuthPlayer conversa com a
         Garena e devolve o que a conta permite ver — na hora, sem guardar nada.
@@ -74,6 +74,7 @@
         <span>BR · LIBERADO</span>
         <span class="cartao-check">✓</span>
       </div>
+      <div class="cartao-cmd"><span id="cmd-typing">auth --eat</span><span class="cmd-cursor"></span></div>
     </aside>
   </section>
 
@@ -87,13 +88,13 @@
     <div class="painel">
       <div class="abas" role="tablist" aria-label="Modos de autenticação">
         <button class="aba ativa" type="button" data-modo="eat" role="tab" aria-selected="true">
-          <span class="aba-num">01</span><span>Access Token</span>
+          <span class="aba-glyph">&lt;t&gt;</span><span>access token</span>
         </button>
         <button class="aba" type="button" data-modo="jwt" role="tab" aria-selected="false">
-          <span class="aba-num">02</span><span>JWT</span>
+          <span class="aba-glyph">{j}</span><span>JWT</span>
         </button>
         <button class="aba" type="button" data-modo="uid" role="tab" aria-selected="false">
-          <span class="aba-num">03</span><span>UID + senha</span>
+          <span class="aba-glyph">u:p</span><span>UID + senha</span>
         </button>
       </div>
 
@@ -161,11 +162,54 @@
         <div class="grade" id="grade-resultado"></div>
         <div id="lista-avisos" class="lista-avisos" hidden></div>
 
-        <details class="json-bruto">
-          <summary>Ver resposta JSON completa</summary>
-          <pre><code id="json-resultado">{}</code></pre>
-        </details>
+        <div class="json-barra">
+          <details class="json-bruto">
+            <summary>Ver resposta JSON completa</summary>
+            <pre><code id="json-resultado">{}</code></pre>
+          </details>
+          <button class="copiar" type="button" data-alvo="json-resultado">copiar json</button>
+        </div>
       </div>
+    </div>
+  </section>
+
+  <!-- --- qual modo usar --- -->
+  <section class="area guia" id="guia">
+    <div class="area-cabeca">
+      <h2>Qual modo usar?</h2>
+      <p>Escolha pelo que você já tem. O resultado é o mesmo.</p>
+    </div>
+    <div class="guia-grade">
+      <article class="guia-item">
+        <span class="guia-glyph">&lt;t&gt;</span>
+        <div>
+          <h3>Você tem um access token</h3>
+          <p>Cole o token da conta. Ele é validado no callback da Garena e volta mascarado.</p>
+        </div>
+      </article>
+      <article class="guia-item">
+        <span class="guia-glyph">{j}</span>
+        <div>
+          <h3>Você tem um JWT</h3>
+          <p>As claims são lidas na hora: UID, nome, região e validade. Nenhuma chamada externa.</p>
+        </div>
+      </article>
+      <article class="guia-item">
+        <span class="guia-glyph">u:p</span>
+        <div>
+          <h3>Você tem a conta</h3>
+          <p>UID e senha viram token na Garena. A senha não aparece na resposta nem fica salva.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <!-- --- regras --- -->
+  <section class="area regras">
+    <div class="regras-linha">
+      <p><b>Sem histórico.</b> Nenhum token, JWT ou senha é gravado em disco, banco ou log.</p>
+      <p><b>Segredo truncado.</b> Tokens voltam com um trecho e o tamanho — nunca o valor completo.</p>
+      <p><b>Envio por POST.</b> O corpo JSON evita que credenciais apareçam em URLs ou no histórico.</p>
     </div>
   </section>
 
@@ -179,15 +223,15 @@
     <div class="api-grade">
       <div class="api-modos">
         <div class="api-modo">
-          <span class="api-modo-num">01</span>
+          <span class="api-modo-glyph">&lt;t&gt;</span>
           <div><b>Access token</b><code>/auth?eat=TOKEN</code></div>
         </div>
         <div class="api-modo">
-          <span class="api-modo-num">02</span>
+          <span class="api-modo-glyph">{j}</span>
           <div><b>JWT direto</b><code>/auth?jwt=TOKEN</code></div>
         </div>
         <div class="api-modo">
-          <span class="api-modo-num">03</span>
+          <span class="api-modo-glyph">u:p</span>
           <div><b>UID + senha</b><code>/auth?uid=ID&amp;pass=SENHA</code></div>
         </div>
         <p class="api-nota">POST em <code>/auth</code> com <code>{"jwt": "..."}</code> também funciona. CORS liberado, sem cache.</p>
@@ -235,6 +279,6 @@
   <p class="rodape-nota">Projeto independente, sem vínculo com a Garena. Nenhuma credencial é salva.</p>
 </footer>
 
-<script src="app.js?v=1"></script>
+<script src="app.js?v=2"></script>
 </body>
 </html>
