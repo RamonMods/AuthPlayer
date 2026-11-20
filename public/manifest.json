@@ -1,8 +1,8 @@
 {
   "name": "AuthPlayer — autenticação Free Fire",
   "short_name": "AuthPlayer",
-  "theme_color": "#0B0D12",
-  "background_color": "#0B0D12",
+  "theme_color": "#F4F4EE",
+  "background_color": "#F4F4EE",
   "icons": [
     {
       "src": "/assets/icon-192.png",

@@ -5,34 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AuthPlayer — autenticação de conta Free Fire por token, JWT ou UID</title>
 <meta name="description" content="Consulte uma conta do Free Fire por access token, JWT ou UID + senha. Resposta imediata, tokens mascarados, nada salvo.">
-<meta name="theme-color" content="#0B0D12">
-<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#F4F4EE">
+<meta name="color-scheme" content="light">
 <link rel="canonical" href="https://ramonmods.github.io/AuthPlayer/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="AuthPlayer — três modos, uma resposta">
+<meta property="og:title" content="AuthPlayer — três entradas, uma resposta">
 <meta property="og:description" content="Autentique uma conta do Free Fire por access token, JWT ou UID + senha.">
 <meta property="og:image" content="https://ramonmods.github.io/AuthPlayer/assets/authplayer-preview.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="AuthPlayer — três modos, uma resposta">
+<meta name="twitter:title" content="AuthPlayer — três entradas, uma resposta">
 <meta name="twitter:description" content="Autentique uma conta do Free Fire por access token, JWT ou UID + senha.">
 <meta name="twitter:image" content="https://ramonmods.github.io/AuthPlayer/assets/authplayer-preview.png">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="manifest" href="manifest.json">
 <meta name="mobile-web-app-capable" content="yes">
-<link rel="stylesheet" href="assets/fonts/fonts.css?v=2">
-<link rel="stylesheet" href="site.css?v=2">
+<link rel="stylesheet" href="assets/fonts/fonts.css?v=3">
+<link rel="stylesheet" href="site.css?v=3">
 </head>
 <body>
 
-<!-- --- cabecalho --- -->
 <header class="topo">
   <a class="marca" href="./">
-    <span class="marca-marca">&gt;</span>
-    <span class="marca-nome">AUTHPLAYER</span>
+    <span class="marca-bloco">A/</span>
+    <span>AUTHPLAYER</span>
   </a>
-  <nav class="topo-nav">
-    <a href="#modos">modos</a>
+  <nav class="nav">
+    <a href="#entradas">entradas</a>
     <a href="#api">api</a>
     <a href="https://pixgg.com/ramon" target="_blank" rel="noopener">pixgg</a>
   </nav>
@@ -40,205 +39,165 @@
 
 <main>
 
-  <!-- --- hero --- -->
-  <section class="hero">
-    <div class="hero-texto">
-      <p class="olho"><span class="olho-luz"></span>auth / verificação de conta</p>
-      <h1>Três formas de entrar.<br>Uma só resposta.<span class="caret">_</span></h1>
-      <p class="linha-fina">
-        Cole um access token, um JWT ou as credenciais da conta. O AuthPlayer conversa com a
-        Garena e devolve o que a conta permite ver — na hora, sem guardar nada.
-      </p>
-      <div class="hero-metas">
-        <span><b>03</b> modos de entrada</span>
-        <span><b>00</b> dados salvos</span>
-        <span><b>01</b> resposta padronizada</span>
-      </div>
+<section class="hero">
+  <div class="hero-texto">
+    <p class="chapeu">verificação de conta · free fire</p>
+    <h1>Três entradas.<br>Uma resposta.</h1>
+    <p class="lead">
+      Você pode ter um access token, um JWT ou só as credenciais da conta.
+      O AuthPlayer conversa com a Garena e devolve o que a conta permite ver.
+    </p>
+    <div class="hero-acoes">
+      <a class="botao-principal" href="#entradas">consultar conta <span aria-hidden="true">↓</span></a>
+      <span class="mini-nota">sem login · sem histórico · sem senha salva</span>
+    </div>
+  </div>
+
+  <div class="fluxo" aria-hidden="true">
+    <div class="fluxo-coluna">
+      <div class="fluxo-entrada">eat</div>
+      <div class="fluxo-entrada">jwt</div>
+      <div class="fluxo-entrada">u:p</div>
+    </div>
+    <div class="fluxo-seta">
+      <span></span><b>→</b>
+    </div>
+    <div class="fluxo-saida">conta</div>
+  </div>
+</section>
+
+<section class="secao" id="entradas">
+  <div class="secao-titulo">
+    <h2>Escolha sua entrada</h2>
+    <p>O resultado é o mesmo. Use o que você tem em mãos agora.</p>
+  </div>
+
+  <div class="painel-form">
+    <div class="modos" role="tablist" aria-label="Modos de autenticação">
+      <button class="modo ativo" type="button" data-modo="eat" role="tab" aria-selected="true">
+        <span class="modo-sigla">&lt;t&gt;</span>
+        <span class="modo-texto"><b>access token</b><small>o token da conta Garena</small></span>
+      </button>
+      <button class="modo" type="button" data-modo="jwt" role="tab" aria-selected="false">
+        <span class="modo-sigla">{j}</span>
+        <span class="modo-texto"><b>JWT</b><small>o token do servidor de jogo</small></span>
+      </button>
+      <button class="modo" type="button" data-modo="uid" role="tab" aria-selected="false">
+        <span class="modo-sigla">u:p</span>
+        <span class="modo-texto"><b>UID + senha</b><small>as credenciais da conta</small></span>
+      </button>
     </div>
 
-    <aside class="cartao-decor" aria-hidden="true">
-      <div class="cartao-linha cartao-linha-topo">
-        <span>credencial</span><span class="cartao-pontos">•••</span>
+    <form class="formulario" id="form-auth" autocomplete="off">
+      <div class="campo" data-para="eat">
+        <label for="eat">Access token</label>
+        <textarea id="eat" rows="4" spellcheck="false" placeholder="Cole o access_token da conta..."></textarea>
+        <p class="ajuda">Validado no callback da Garena. Devolve o nome, o UID e a região.</p>
       </div>
-      <div class="cartao-corpo">
-        <div class="cartao-avatar">&gt;_</div>
+
+      <div class="campo" data-para="jwt" hidden>
+        <label for="jwt">JWT</label>
+        <textarea id="jwt" rows="4" spellcheck="false" placeholder="eyJhbGciOi...."></textarea>
+        <p class="ajuda">As claims são lidas localmente. A assinatura não é verificada.</p>
+      </div>
+
+      <div class="campo-duplo" data-para="uid" hidden>
+        <div class="campo">
+          <label for="uid">UID</label>
+          <input id="uid" inputmode="numeric" pattern="[0-9]*" maxlength="15" placeholder="13775111115">
+        </div>
+        <div class="campo">
+          <label for="pass">Senha</label>
+          <input id="pass" type="password" autocomplete="new-password" placeholder="••••••••">
+        </div>
+        <p class="ajuda">A senha vai só na requisição para a Garena e nunca volta na resposta.</p>
+      </div>
+
+      <button class="botao-principal enviar" type="submit">autenticar <span aria-hidden="true">→</span></button>
+      <p class="form-nota">Nada é salvo. Tokens e JWTs voltam mascarados.</p>
+    </form>
+  </div>
+
+  <div class="aviso" id="aviso" hidden></div>
+  <div class="carregando" id="carregando" hidden><span></span>consultando a garena</div>
+</section>
+
+<section class="secao" id="resultado" hidden>
+  <div class="secao-titulo">
+    <h2>Resposta</h2>
+    <p id="resultado-meta"></p>
+  </div>
+
+  <div class="resposta">
+    <div class="resposta-barra">
+      <span>AUTHPLAYER / RESPOSTA</span>
+      <span class="resposta-status" id="resposta-status">200 OK</span>
+    </div>
+    <div class="resposta-corpo">
+      <div class="identidade">
+        <div class="identidade-sigla">OK</div>
         <div>
-          <div class="cartao-nome">JOgAdOr_FF</div>
-          <div class="cartao-uid">UID 13775111115</div>
+          <h3 id="conta-nome">—</h3>
+          <p id="conta-sub">—</p>
         </div>
       </div>
-      <div class="cartao-linhas">
-        <span></span><span></span><span></span>
-      </div>
-      <div class="cartao-pe">
-        <span>BR · LIBERADO</span>
-        <span class="cartao-check">✓</span>
-      </div>
-      <div class="cartao-cmd"><span id="cmd-typing">auth --eat</span><span class="cmd-cursor"></span></div>
-    </aside>
-  </section>
-
-  <!-- --- formulário --- -->
-  <section class="area" id="modos">
-    <div class="area-cabeca">
-      <h2>Escolha como quer entrar</h2>
-      <p>Os três modos devolvem o mesmo resultado. Use o que você tem em mãos.</p>
-    </div>
-
-    <div class="painel">
-      <div class="abas" role="tablist" aria-label="Modos de autenticação">
-        <button class="aba ativa" type="button" data-modo="eat" role="tab" aria-selected="true">
-          <span class="aba-glyph">&lt;t&gt;</span><span>access token</span>
-        </button>
-        <button class="aba" type="button" data-modo="jwt" role="tab" aria-selected="false">
-          <span class="aba-glyph">{j}</span><span>JWT</span>
-        </button>
-        <button class="aba" type="button" data-modo="uid" role="tab" aria-selected="false">
-          <span class="aba-glyph">u:p</span><span>UID + senha</span>
-        </button>
-      </div>
-
-      <form class="formulario" id="form-auth" autocomplete="off">
-        <div class="campo-form" data-para="eat">
-          <label for="eat">Access token (EAT)</label>
-          <textarea id="eat" name="eat" rows="3" spellcheck="false" placeholder="Cole aqui o access_token da conta..."></textarea>
-          <p class="dica">Aparece como <code>/auth?eat=...</code>. O token é enviado por POST e mostrado mascarado.</p>
-        </div>
-
-        <div class="campo-form" data-para="jwt" hidden>
-          <label for="jwt">JWT do servidor de jogo</label>
-          <textarea id="jwt" name="jwt" rows="3" spellcheck="false" placeholder="eyJhbGciOi...."></textarea>
-          <p class="dica">As claims são lidas localmente: UID, nome, região e validade. A assinatura não é verificada.</p>
-        </div>
-
-        <div class="campos-linha" data-para="uid" hidden>
-          <div class="campo-form">
-            <label for="uid">UID da conta</label>
-            <input id="uid" name="uid" inputmode="numeric" pattern="[0-9]*" maxlength="15" placeholder="13775111115">
-          </div>
-          <div class="campo-form">
-            <label for="pass">Senha</label>
-            <input id="pass" name="pass" type="password" autocomplete="new-password" placeholder="••••••••">
-          </div>
-          <p class="dica larga">A senha nunca volta na resposta e não é salva. Ela só vai na requisição para a Garena.</p>
-        </div>
-
-        <button class="botao" type="submit">
-          <span>Autenticar</span>
-          <span class="botao-seta">&gt;_</span>
-        </button>
-      </form>
-
-      <div id="aviso" class="aviso" hidden></div>
-      <div id="carregando" class="carregando" hidden>
-        <span class="linha-carregando"></span><span>consultando a garena</span>
+      <div class="grade" id="grade-resultado"></div>
+      <div class="avisos" id="lista-avisos" hidden></div>
+      <div class="json-linha">
+        <details class="json">
+          <summary>resposta completa em JSON</summary>
+          <pre><code id="json-resultado">{}</code></pre>
+        </details>
+        <button class="botao-copy" type="button" data-alvo="json-resultado">copiar json</button>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- --- resultado --- -->
-  <section class="area resultado" id="resultado" hidden>
-    <div class="area-cabeca">
-      <h2>Resultado</h2>
-      <p id="resultado-meta"></p>
+<section class="secao clareza">
+  <div class="secao-titulo">
+    <h2>Como cada entrada funciona</h2>
+    <p>Sem mistério: cada modo usa o que você já tem.</p>
+  </div>
+  <div class="clareza-grade">
+    <article>
+      <span class="clareza-sigla">&lt;t&gt;</span>
+      <h3>Token</h3>
+      <p>O access token é enviado ao callback da Garena, que devolve UID, nome e região da conta.</p>
+    </article>
+    <article>
+      <span class="clareza-sigla">{j}</span>
+      <h3>JWT</h3>
+      <p>O JSON do token é decodificado na hora. Serve para ver UID, região e validade sem consultar a Garena.</p>
+    </article>
+    <article>
+      <span class="clareza-sigla">u:p</span>
+      <h3>Credenciais</h3>
+      <p>UID e senha viram token e open_id na Garena; depois o token é validado como no primeiro modo.</p>
+    </article>
+  </div>
+</section>
+
+<section class="secao regras">
+  <p><b>Sem histórico.</b> Nenhum segredo é gravado em disco, banco ou log.</p>
+  <p><b>Segredo truncado.</b> Tokens voltam com um trecho e o tamanho, nunca o valor inteiro.</p>
+  <p><b>Envio por POST.</b> Credenciais não aparecem em URL nem no histórico do navegador.</p>
+</section>
+
+<section class="secao" id="api">
+  <div class="secao-titulo">
+    <h2>Para quem programa</h2>
+    <p>Uma rota, três entradas. GET ou POST, com CORS liberado e sem cache.</p>
+  </div>
+  <div class="api-grade">
+    <div class="api-lista">
+      <div><span>&lt;t&gt;</span><code>/auth?eat=TOKEN</code></div>
+      <div><span>{j}</span><code>/auth?jwt=TOKEN</code></div>
+      <div><span>u:p</span><code>/auth?uid=ID&amp;pass=SENHA</code></div>
+      <p>Também aceita POST em <code>/auth</code> com <code>{"jwt": "..."}</code>. Alias: <code>/api/auth</code>.</p>
     </div>
-
-    <div class="terminal">
-      <div class="terminal-barra">
-        <span class="terminal-pontos"><i></i><i></i><i></i></span>
-        <span>authplayer://resposta</span>
-        <span class="terminal-estado" id="terminal-estado">200 OK</span>
-      </div>
-
-      <div class="terminal-corpo">
-        <div class="resultado-cabeca">
-          <div class="resultado-selo" id="resultado-selo">OK</div>
-          <div>
-            <h3 id="conta-nome">—</h3>
-            <p id="conta-sub">—</p>
-          </div>
-        </div>
-
-        <div class="grade" id="grade-resultado"></div>
-        <div id="lista-avisos" class="lista-avisos" hidden></div>
-
-        <div class="json-barra">
-          <details class="json-bruto">
-            <summary>Ver resposta JSON completa</summary>
-            <pre><code id="json-resultado">{}</code></pre>
-          </details>
-          <button class="copiar" type="button" data-alvo="json-resultado">copiar json</button>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- --- qual modo usar --- -->
-  <section class="area guia" id="guia">
-    <div class="area-cabeca">
-      <h2>Qual modo usar?</h2>
-      <p>Escolha pelo que você já tem. O resultado é o mesmo.</p>
-    </div>
-    <div class="guia-grade">
-      <article class="guia-item">
-        <span class="guia-glyph">&lt;t&gt;</span>
-        <div>
-          <h3>Você tem um access token</h3>
-          <p>Cole o token da conta. Ele é validado no callback da Garena e volta mascarado.</p>
-        </div>
-      </article>
-      <article class="guia-item">
-        <span class="guia-glyph">{j}</span>
-        <div>
-          <h3>Você tem um JWT</h3>
-          <p>As claims são lidas na hora: UID, nome, região e validade. Nenhuma chamada externa.</p>
-        </div>
-      </article>
-      <article class="guia-item">
-        <span class="guia-glyph">u:p</span>
-        <div>
-          <h3>Você tem a conta</h3>
-          <p>UID e senha viram token na Garena. A senha não aparece na resposta nem fica salva.</p>
-        </div>
-      </article>
-    </div>
-  </section>
-
-  <!-- --- regras --- -->
-  <section class="area regras">
-    <div class="regras-linha">
-      <p><b>Sem histórico.</b> Nenhum token, JWT ou senha é gravado em disco, banco ou log.</p>
-      <p><b>Segredo truncado.</b> Tokens voltam com um trecho e o tamanho — nunca o valor completo.</p>
-      <p><b>Envio por POST.</b> O corpo JSON evita que credenciais apareçam em URLs ou no histórico.</p>
-    </div>
-  </section>
-
-  <!-- --- api --- -->
-  <section class="area api" id="api">
-    <div class="area-cabeca">
-      <h2>Para quem programa</h2>
-      <p>Mesma lógica, uma rota. GET com parâmetros ou POST com JSON — o que for mais cômodo.</p>
-    </div>
-
-    <div class="api-grade">
-      <div class="api-modos">
-        <div class="api-modo">
-          <span class="api-modo-glyph">&lt;t&gt;</span>
-          <div><b>Access token</b><code>/auth?eat=TOKEN</code></div>
-        </div>
-        <div class="api-modo">
-          <span class="api-modo-glyph">{j}</span>
-          <div><b>JWT direto</b><code>/auth?jwt=TOKEN</code></div>
-        </div>
-        <div class="api-modo">
-          <span class="api-modo-glyph">u:p</span>
-          <div><b>UID + senha</b><code>/auth?uid=ID&amp;pass=SENHA</code></div>
-        </div>
-        <p class="api-nota">POST em <code>/auth</code> com <code>{"jwt": "..."}</code> também funciona. CORS liberado, sem cache.</p>
-      </div>
-
-      <div class="api-codigo">
-        <div class="api-codigo-topo"><span>POST</span><code>/auth</code></div>
+    <div class="api-code">
+      <div class="api-code-topo"><span>POST</span><code>/auth</code></div>
 <pre><code>{
   "ok": true,
   "metodo": "jwt",
@@ -247,38 +206,34 @@
     "nome": "JOgAdOr_FF",
     "regiao": "BR",
     "open_id": null,
-    "access_token": null,
     "jwt": "eyJhbGciOi… (741 caracteres)",
     "expira_em": 1795222540
   },
   "avisos": ["JWT é lido localmente..."],
   "tempo_ms": 0
 }</code></pre>
-      </div>
     </div>
-  </section>
+  </div>
+</section>
 
 </main>
 
 <footer class="rodape">
-  <div class="rodape-linha">
-    <div class="rodape-marca">
-      <span class="marca-marca">&gt;</span>
-      <div><strong>AUTHPLAYER</strong><span>Autenticação Free Fire por token, JWT ou UID</span></div>
-    </div>
-    <nav class="rodape-links">
-      <a href="https://github.com/RamonMods/AuthPlayer" target="_blank" rel="noopener">GitHub</a>
-      <a href="https://ramonmods.github.io/" target="_blank" rel="noopener">RamonMods</a>
-      <a href="#api">API</a>
+  <div class="rodape-topo">
+    <div class="rodape-marca"><span class="marca-bloco">A/</span><b>AUTHPLAYER</b></div>
+    <nav>
+      <a href="https://github.com/RamonMods/AuthPlayer" target="_blank" rel="noopener">github</a>
+      <a href="https://ramonmods.github.io/" target="_blank" rel="noopener">ramonmods</a>
+      <a href="#api">api</a>
     </nav>
   </div>
   <div class="rodape-pix">
     <p>Se o AuthPlayer te ajudou, um café ajuda a manter os testes de API no ar.</p>
-    <a class="pix" href="https://pixgg.com/ramon" target="_blank" rel="noopener">pixgg.com/ramon</a>
+    <a href="https://pixgg.com/ramon" target="_blank" rel="noopener">pixgg.com/ramon</a>
   </div>
   <p class="rodape-nota">Projeto independente, sem vínculo com a Garena. Nenhuma credencial é salva.</p>
 </footer>
 
-<script src="app.js?v=2"></script>
+<script src="app.js?v=3"></script>
 </body>
 </html>

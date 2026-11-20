@@ -1,7 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="AuthPlayer">
-  <rect width="64" height="64" rx="14" fill="#0B0D12"/>
-  <rect x="8" y="16" width="48" height="34" rx="7" fill="#E8B23A"/>
-  <path d="M22 26 L31 33 L22 40" fill="none" stroke="#0B0D12" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="M35 41 H45" fill="none" stroke="#0B0D12" stroke-width="4" stroke-linecap="round"/>
-  <circle cx="50" cy="15" r="7" fill="#4FD1A5" stroke="#0B0D12" stroke-width="3"/>
+  <rect width="64" height="64" fill="#2447FF"/>
+  <rect x="1.5" y="1.5" width="61" height="61" fill="none" stroke="#0C0C0C" stroke-width="3"/>
+  <path d="M11 19 H20 M11 32 H20 M11 45 H20" fill="none" stroke="#0C0C0C" stroke-width="5"/>
+  <path d="M21 19 L33 27 M21 32 H33 M21 45 L33 37" fill="none" stroke="#0C0C0C" stroke-width="4"/>
+  <path d="M32 25 H43 V20 L55 32 L43 44 V39 H32 Z" fill="#0C0C0C"/>
 </svg>
