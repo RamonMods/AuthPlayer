@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AuthPlayer — autenticação de conta Free Fire por token, JWT ou UID</title>
+<meta name="description" content="Consulte uma conta do Free Fire por access token, JWT ou UID + senha. Resposta imediata, tokens mascarados, nada salvo.">
+<meta name="theme-color" content="#0B0D12">
+<meta name="color-scheme" content="dark">
+<link rel="canonical" href="https://ramonmods.github.io/AuthPlayer/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="AuthPlayer — três modos, uma resposta">
+<meta property="og:description" content="Autentique uma conta do Free Fire por access token, JWT ou UID + senha.">
+<meta property="og:image" content="https://ramonmods.github.io/AuthPlayer/assets/authplayer-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="AuthPlayer — três modos, uma resposta">
+<meta name="twitter:description" content="Autentique uma conta do Free Fire por access token, JWT ou UID + senha.">
+<meta name="twitter:image" content="https://ramonmods.github.io/AuthPlayer/assets/authplayer-preview.png">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="manifest.json">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="stylesheet" href="assets/fonts/fonts.css?v=1">
+<link rel="stylesheet" href="site.css?v=1">
+</head>
+<body>
+
+<!-- --- cabecalho --- -->
+<header class="topo">
+  <a class="marca" href="./">
+    <span class="marca-marca">&gt;</span>
+    <span class="marca-nome">AUTHPLAYER</span>
+  </a>
+  <nav class="topo-nav">
+    <a href="#modos">modos</a>
+    <a href="#api">api</a>
+    <a href="https://pixgg.com/ramon" target="_blank" rel="noopener">pixgg</a>
+  </nav>
+</header>
+
+<main>
+
+  <!-- --- hero --- -->
+  <section class="hero">
+    <div class="hero-texto">
+      <p class="olho"><span class="olho-luz"></span>auth / verificação de conta</p>
+      <h1>Três caminhos.<br><em>Uma resposta.</em></h1>
+      <p class="linha-fina">
+        Cole um access token, um JWT ou as credenciais da conta. O AuthPlayer conversa com a
+        Garena e devolve o que a conta permite ver — na hora, sem guardar nada.
+      </p>
+      <div class="hero-metas">
+        <span><b>03</b> modos de entrada</span>
+        <span><b>00</b> dados salvos</span>
+        <span><b>01</b> resposta padronizada</span>
+      </div>
+    </div>
+
+    <aside class="cartao-decor" aria-hidden="true">
+      <div class="cartao-linha cartao-linha-topo">
+        <span>credencial</span><span class="cartao-pontos">•••</span>
+      </div>
+      <div class="cartao-corpo">
+        <div class="cartao-avatar">&gt;_</div>
+        <div>
+          <div class="cartao-nome">JOgAdOr_FF</div>
+          <div class="cartao-uid">UID 13775111115</div>
+        </div>
+      </div>
+      <div class="cartao-linhas">
+        <span></span><span></span><span></span>
+      </div>
+      <div class="cartao-pe">
+        <span>BR · LIBERADO</span>
+        <span class="cartao-check">✓</span>
+      </div>
+    </aside>
+  </section>
+
+  <!-- --- formulário --- -->
+  <section class="area" id="modos">
+    <div class="area-cabeca">
+      <h2>Escolha como quer entrar</h2>
+      <p>Os três modos devolvem o mesmo resultado. Use o que você tem em mãos.</p>
+    </div>
+
+    <div class="painel">
+      <div class="abas" role="tablist" aria-label="Modos de autenticação">
+        <button class="aba ativa" type="button" data-modo="eat" role="tab" aria-selected="true">
+          <span class="aba-num">01</span><span>Access Token</span>
+        </button>
+        <button class="aba" type="button" data-modo="jwt" role="tab" aria-selected="false">
+          <span class="aba-num">02</span><span>JWT</span>
+        </button>
+        <button class="aba" type="button" data-modo="uid" role="tab" aria-selected="false">
+          <span class="aba-num">03</span><span>UID + senha</span>
+        </button>
+      </div>
+
+      <form class="formulario" id="form-auth" autocomplete="off">
+        <div class="campo-form" data-para="eat">
+          <label for="eat">Access token (EAT)</label>
+          <textarea id="eat" name="eat" rows="3" spellcheck="false" placeholder="Cole aqui o access_token da conta..."></textarea>
+          <p class="dica">Aparece como <code>/auth?eat=...</code>. O token é enviado por POST e mostrado mascarado.</p>
+        </div>
+
+        <div class="campo-form" data-para="jwt" hidden>
+          <label for="jwt">JWT do servidor de jogo</label>
+          <textarea id="jwt" name="jwt" rows="3" spellcheck="false" placeholder="eyJhbGciOi...."></textarea>
+          <p class="dica">As claims são lidas localmente: UID, nome, região e validade. A assinatura não é verificada.</p>
+        </div>
+
+        <div class="campos-linha" data-para="uid" hidden>
+          <div class="campo-form">
+            <label for="uid">UID da conta</label>
+            <input id="uid" name="uid" inputmode="numeric" pattern="[0-9]*" maxlength="15" placeholder="13775111115">
+          </div>
+          <div class="campo-form">
+            <label for="pass">Senha</label>
+            <input id="pass" name="pass" type="password" autocomplete="new-password" placeholder="••••••••">
+          </div>
+          <p class="dica larga">A senha nunca volta na resposta e não é salva. Ela só vai na requisição para a Garena.</p>
+        </div>
+
+        <button class="botao" type="submit">
+          <span>Autenticar</span>
+          <span class="botao-seta">&gt;_</span>
+        </button>
+      </form>
+
+      <div id="aviso" class="aviso" hidden></div>
+      <div id="carregando" class="carregando" hidden>
+        <span class="linha-carregando"></span><span>consultando a garena</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- resultado --- -->
+  <section class="area resultado" id="resultado" hidden>
+    <div class="area-cabeca">
+      <h2>Resultado</h2>
+      <p id="resultado-meta"></p>
+    </div>
+
+    <div class="terminal">
+      <div class="terminal-barra">
+        <span class="terminal-pontos"><i></i><i></i><i></i></span>
+        <span>authplayer://resposta</span>
+        <span class="terminal-estado" id="terminal-estado">200 OK</span>
+      </div>
+
+      <div class="terminal-corpo">
+        <div class="resultado-cabeca">
+          <div class="resultado-selo" id="resultado-selo">OK</div>
+          <div>
+            <h3 id="conta-nome">—</h3>
+            <p id="conta-sub">—</p>
+          </div>
+        </div>
+
+        <div class="grade" id="grade-resultado"></div>
+        <div id="lista-avisos" class="lista-avisos" hidden></div>
+
+        <details class="json-bruto">
+          <summary>Ver resposta JSON completa</summary>
+          <pre><code id="json-resultado">{}</code></pre>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- --- api --- -->
+  <section class="area api" id="api">
+    <div class="area-cabeca">
+      <h2>Para quem programa</h2>
+      <p>Mesma lógica, uma rota. GET com parâmetros ou POST com JSON — o que for mais cômodo.</p>
+    </div>
+
+    <div class="api-grade">
+      <div class="api-modos">
+        <div class="api-modo">
+          <span class="api-modo-num">01</span>
+          <div><b>Access token</b><code>/auth?eat=TOKEN</code></div>
+        </div>
+        <div class="api-modo">
+          <span class="api-modo-num">02</span>
+          <div><b>JWT direto</b><code>/auth?jwt=TOKEN</code></div>
+        </div>
+        <div class="api-modo">
+          <span class="api-modo-num">03</span>
+          <div><b>UID + senha</b><code>/auth?uid=ID&amp;pass=SENHA</code></div>
+        </div>
+        <p class="api-nota">POST em <code>/auth</code> com <code>{"jwt": "..."}</code> também funciona. CORS liberado, sem cache.</p>
+      </div>
+
+      <div class="api-codigo">
+        <div class="api-codigo-topo"><span>POST</span><code>/auth</code></div>
+<pre><code>{
+  "ok": true,
+  "metodo": "jwt",
+  "conta": {
+    "uid": "13775111115",
+    "nome": "JOgAdOr_FF",
+    "regiao": "BR",
+    "open_id": null,
+    "access_token": null,
+    "jwt": "eyJhbGciOi… (741 caracteres)",
+    "expira_em": 1795222540
+  },
+  "avisos": ["JWT é lido localmente..."],
+  "tempo_ms": 0
+}</code></pre>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="rodape">
+  <div class="rodape-linha">
+    <div class="rodape-marca">
+      <span class="marca-marca">&gt;</span>
+      <div><strong>AUTHPLAYER</strong><span>Autenticação Free Fire por token, JWT ou UID</span></div>
+    </div>
+    <nav class="rodape-links">
+      <a href="https://github.com/RamonMods/AuthPlayer" target="_blank" rel="noopener">GitHub</a>
+      <a href="https://ramonmods.github.io/" target="_blank" rel="noopener">RamonMods</a>
+      <a href="#api">API</a>
+    </nav>
+  </div>
+  <div class="rodape-pix">
+    <p>Se o AuthPlayer te ajudou, um café ajuda a manter os testes de API no ar.</p>
+    <a class="pix" href="https://pixgg.com/ramon" target="_blank" rel="noopener">pixgg.com/ramon</a>
+  </div>
+  <p class="rodape-nota">Projeto independente, sem vínculo com a Garena. Nenhuma credencial é salva.</p>
+</footer>
+
+<script src="app.js?v=1"></script>
+</body>
+</html>

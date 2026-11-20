@@ -1,0 +1,13 @@
+# --- AuthPlayer: site e API no mesmo serviço Flask. --- #
+services:
+  - type: web
+    name: authplayer
+    runtime: python
+    plan: free
+    region: oregon
+    buildCommand: pip install -r api/requirements.txt
+    startCommand: gunicorn --chdir api --workers 1 --threads 8 --timeout 120 app:app
+    healthCheckPath: /healthz
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.6

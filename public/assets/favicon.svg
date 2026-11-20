@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="AuthPlayer">
+  <rect width="64" height="64" rx="14" fill="#0B0D12"/>
+  <rect x="8" y="16" width="48" height="34" rx="7" fill="#E8B23A"/>
+  <path d="M22 26 L31 33 L22 40" fill="none" stroke="#0B0D12" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M35 41 H45" fill="none" stroke="#0B0D12" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="50" cy="15" r="7" fill="#4FD1A5" stroke="#0B0D12" stroke-width="3"/>
+</svg>
